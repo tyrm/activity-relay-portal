@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 )
 
@@ -44,7 +45,8 @@ func (env *Env) HandlePortal(response http.ResponseWriter, request *http.Request
 	}
 
 	for i := 0; i < lines; i++ {
-		resp.Relays[i] = relayDB.RelayList[len(relayDB.RelayList)-1-i]
+		u, _ := url.Parse(relayDB.RelayList[len(relayDB.RelayList)-1-i])
+		resp.Relays[i] = u.Host
 	}
 
 	resp.Count = len(relayDB.RelayList)
